@@ -1,0 +1,26 @@
+{
+  "name": "tinyprofiler-react",
+  "version": "0.0.1",
+  "description": "ReactJS front-end for TinyProfiler",
+  "author": "Andrew Couch <tinyprofiler@andrewcou.ch>",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/couchand/tinyprofiler-react.git"
+  },
+  "bugs": {
+    "url": "https://github.com/couchand/tinyprofiler-react/issues"
+  },
+  "keywords": [
+    "tinyprofiler",
+    "ui"
+  ],
+  "dependencies": {
+    "envify": "~1.2.1",
+    "react": "~0.10.0"
+  }
+}
