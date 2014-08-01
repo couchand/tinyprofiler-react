@@ -2,7 +2,7 @@
 
 React = require 'react'
 
-{div} = React.DOM
+{div, span} = React.DOM
 
 tinyprofiler = React.createClass
   displayName: "TinyProfiler"
@@ -10,12 +10,16 @@ tinyprofiler = React.createClass
   propTypes:
     # requires a TinyProfilerClient instance
     client: React.PropTypes.object.isRequired
+    position: React.PropTypes.oneOf ['nw', 'ne', 'se', 'sw']
+
+  getDefaultProps: ->
+    position: 'sw'
 
   render: ->
     div
-      className: "tinyprofiler"
+      className: "tinyprofiler tinyprofiler-#{@props.position}"
       div
-        className: "requests"
+        className: "tinyprofiler-requests"
         (@renderRequest req for req in @props.client.getRequests())
 
   renderRequest: (req) ->
@@ -26,26 +30,54 @@ tinyprofiler = React.createClass
 request = React.createClass
   displayName: "TinyProfiler Request"
 
+  getInitialState: ->
+    collapsed: yes
+
+  toggleCollapsed: ->
+    @setState collapsed: not @state.collapsed
+
   render: ->
     req = @props.request
+    children = req.getSteps()
     div
-      className: "request"
+      className: "tinyprofiler-request tinyprofiler-" +
+        if @state.collapsed then "collapsed" else "expanded"
       id: req.getId()
       div
-        className: "name"
-        req.getName()
+        className: "tinyprofiler-header"
+        div
+          className: "tinyprofiler-target"
+          onClick: @toggleCollapsed
+          div
+            className: "tinyprofiler-expand"
+            title: "expand"
+            dangerouslySetInnerHTML: __html: "&plus;"
+          div
+            className: "tinyprofiler-collapse"
+            title: "collapse"
+            dangerouslySetInnerHTML: __html: "&minus;"
+          div
+            className: "tinyprofiler-name"
+            req.getName()
+          div
+            className: "tinyprofiler-length"
+            req.getLength()
+        div
+          className: "tinyprofiler-request-remove"
+          title: "remove this profile"
+          dangerouslySetInnerHTML: __html: "&times;"
       div
-        className: "details"
-        req.getDetails()
-      div
-        className: "start"
-        req.getStart()
-      div
-        className: "length"
-        req.getLength()
-      div
-        className: "steps"
-        (@renderStep i, child for i, child of req.getSteps())
+        className: "tinyprofiler-body"
+        div
+          className: "tinyprofiler-details"
+          req.getDetails()
+        div
+          className: "tinyprofiler-start"
+          req.getStart().toISOString()
+        if children.length
+          div
+            className: "tinyprofiler-steps"
+            (@renderStep i, child for i, child of children)
 
   renderStep: (i, child) ->
     step
@@ -55,25 +87,48 @@ request = React.createClass
 step = React.createClass
   displayName: "TinyProfiler Step"
 
+  getInitialState: ->
+    collapsed: yes
+
+  toggleCollapsed: ->
+    @setState collapsed: not @state.collapsed
+
   render: ->
     st = @props.step
+    children = st.getSteps()
+    details = st.getDetails()
+    cls = "tinyprofiler-step tinyprofiler-" +
+      if @state.collapsed then "collapsed" else "expanded"
+    cls += " tinyprofiler-leaf" unless children.length or details?
     div
-      className: "step"
+      className: cls
       div
-        className: "name"
-        st.getName()
+        className: "tinyprofiler-header"
+        onClick: @toggleCollapsed
+        div
+          className: "tinyprofiler-expand"
+          title: "expand"
+          dangerouslySetInnerHTML: __html: "&plus;"
+        div
+          className: "tinyprofiler-collapse"
+          title: "collapse"
+          dangerouslySetInnerHTML: __html: "&minus;"
+        div
+          className: "tinyprofiler-name"
+          st.getName()
+        div
+          className: "tinyprofiler-length"
+          st.getLength()
       div
-        className: "details"
-        st.getDetails()
-      div
-        className: "start"
-        st.getStart()
-      div
-        className: "length"
-        st.getLength()
-      div
-        className: "steps"
-        (@renderStep i, child for i, child of st.getSteps())
+        className: "tinyprofiler-body"
+        if details?
+          div
+            className: "tinyprofiler-details"
+            details
+        if children.length
+          div
+            className: "tinyprofiler-steps"
+            (@renderStep i, child for i, child of children)
 
   renderStep: (i, child) ->
     step
