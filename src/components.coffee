@@ -15,6 +15,10 @@ tinyprofiler = React.createClass
   getDefaultProps: ->
     position: 'sw'
 
+  handleRemove: (request) ->
+    @props.client.remove request.getId()
+    @forceUpdate()
+
   render: ->
     div
       className: "tinyprofiler tinyprofiler-#{@props.position}"
@@ -26,15 +30,22 @@ tinyprofiler = React.createClass
     request
       key: req.getId()
       request: req
+      onRemove: @handleRemove
 
 request = React.createClass
   displayName: "TinyProfiler Request"
+
+  getDefaultProps: ->
+    onRemove: ->
 
   getInitialState: ->
     collapsed: yes
 
   toggleCollapsed: ->
     @setState collapsed: not @state.collapsed
+
+  handleRemove: ->
+    @props.onRemove @props.request
 
   render: ->
     req = @props.request
@@ -66,6 +77,7 @@ request = React.createClass
           className: "tinyprofiler-request-remove"
           title: "remove this profile"
           dangerouslySetInnerHTML: __html: "&times;"
+          onClick: @handleRemove
       div
         className: "tinyprofiler-body"
         div
