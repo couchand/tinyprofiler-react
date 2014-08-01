@@ -15,6 +15,15 @@ tinyprofiler = React.createClass
   getDefaultProps: ->
     position: 'sw'
 
+  handleProfile: (req) ->
+    @forceUpdate()
+
+  componentWillMount: ->
+    @props.client.on 'profile', @handleProfile
+
+  componentWillUnmount: ->
+    @props.client.off 'profile', @handleProfile
+
   handleRemove: (request) ->
     @props.client.remove request.getId()
     @forceUpdate()
