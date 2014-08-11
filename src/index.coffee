@@ -5,8 +5,10 @@ React = require 'react'
 {tinyprofiler} = require './components'
 
 # for use within a react project
-renderComponent = (client) ->
-  tinyprofiler {client}
+renderComponent = (client, options) ->
+  props = {client}
+  props.position = options.position if options?.position?
+  tinyprofiler props
 
 # for use in the browser
 renderElement = (client, container) ->
