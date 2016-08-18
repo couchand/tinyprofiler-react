@@ -4,7 +4,7 @@ React = require 'react'
 
 {div, span} = React.DOM
 
-tinyprofiler = React.createFactory React.createClass
+tinyprofiler = React.createClass
   displayName: "TinyProfiler"
 
   propTypes:
@@ -42,12 +42,12 @@ tinyprofiler = React.createFactory React.createClass
         (@renderRequest req for req in @state.requests)
 
   renderRequest: (req) ->
-    request
+    React.createElement request,
       key: req.getId()
       request: req
       onRemove: @handleRemove
 
-request = React.createFactory React.createClass
+request = React.createClass
   displayName: "TinyProfiler Request"
 
   getDefaultProps: ->
@@ -107,7 +107,7 @@ request = React.createFactory React.createClass
             (@renderStep i, child for i, child of children)
 
   renderStep: (i, child) ->
-    step
+    React.createElement step,
       key: i
       step: child
 
@@ -158,7 +158,7 @@ step = React.createFactory React.createClass
             (@renderStep i, child for i, child of children)
 
   renderStep: (i, child) ->
-    step
+    React.createElement step,
       key: i
       step: child
 
