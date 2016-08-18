@@ -1,6 +1,6 @@
 {
   "name": "tinyprofiler-react",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "description": "ReactJS front-end for TinyProfiler",
   "author": "Andrew Couch <tinyprofiler@andrewcou.ch>",
   "license": "MIT",
