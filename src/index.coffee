@@ -4,13 +4,13 @@ React = require 'react'
 ReactDOM = require 'react-dom'
 ReactDOMServer = require 'react-dom/server'
 
-{tinyprofiler} = require './components'
+{TinyProfiler} = require './components'
 
 # for use within a react project
 renderComponent = (client, options) ->
   props = {client}
   props.position = options.position if options?.position?
-  React.createElement tinyprofiler, props
+  React.createElement TinyProfiler, props
 
 # for use in the browser
 renderElement = (client, container) ->
