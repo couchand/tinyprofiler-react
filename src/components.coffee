@@ -15,8 +15,14 @@ tinyprofiler = React.createFactory React.createClass
   getDefaultProps: ->
     position: 'sw'
 
+  getInitialState: ->
+    requests: @props.client.getRequests()
+
+  refreshRequests: ->
+    @setState requests: @props.client.getRequests()
+
   handleProfile: (req) ->
-    @forceUpdate()
+    @refreshRequests()
 
   componentWillMount: ->
     @props.client.on 'profile', @handleProfile
@@ -26,14 +32,14 @@ tinyprofiler = React.createFactory React.createClass
 
   handleRemove: (request) ->
     @props.client.remove request.getId()
-    @forceUpdate()
+    @refreshRequests()
 
   render: ->
     div
       className: "tinyprofiler tinyprofiler-#{@props.position}"
       div
         className: "tinyprofiler-requests"
-        (@renderRequest req for req in @props.client.getRequests())
+        (@renderRequest req for req in @state.requests)
 
   renderRequest: (req) ->
     request
