@@ -6,6 +6,7 @@ ReactJS front-end for TinyProfiler
   * introduction
   * getting started
   * documentation
+  * license
 
 introduction
 ------------
@@ -52,6 +53,11 @@ documentation
 -------------
 
 *coming soon*
+
+license
+-------
+
+MIT: [https://couch.mit-license.org/](https://couch.mit-license.org/)
 
 ##### ╭╮☲☲☲╭╮ #####
 
