@@ -27,7 +27,24 @@ the markup for your client instance with code such as this:
 var ui = require('tinyprofiler-react');
 var reactComponent = ui.renderComponent(
   tinyprofilerClient,
+  { position: 'sw' }
+);
+```
+
+or this,
+
+```javascript
+ui.renderElement(
+  tinyprofilerClient,
   document.getElementById("tp")
+);
+```
+
+or this,
+
+```javascript
+var stringValue = ui.renderString(
+  tinyprofilerClient
 );
 ```
 
