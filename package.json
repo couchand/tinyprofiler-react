@@ -6,7 +6,7 @@
   "license": "MIT",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha"
+    "build": "coffee -c -o lib src"
   },
   "repository": {
     "type": "git",
