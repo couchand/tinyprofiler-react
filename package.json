@@ -6,7 +6,11 @@
   "license": "MIT",
   "main": "lib/index.js",
   "scripts": {
-    "build": "coffee -c -o lib src"
+    "build": "coffee -c -o lib src",
+    "deploy": "npm run clean && npm run build && npm run package",
+    "prepackage": "mkdir dist",
+    "package": "cp -r lib README.markdown LICENSE package.json dist",
+    "clean": "rm -rf lib dist"
   },
   "repository": {
     "type": "git",
