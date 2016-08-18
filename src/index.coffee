@@ -1,6 +1,8 @@
 # tinyprofiler react ui
 
 React = require 'react'
+ReactDOM = require 'react-dom'
+ReactDOMServer = require 'react-dom/server'
 
 {tinyprofiler} = require './components'
 
@@ -8,16 +10,16 @@ React = require 'react'
 renderComponent = (client, options) ->
   props = {client}
   props.position = options.position if options?.position?
-  tinyprofiler props
+  React.createElement tinyprofiler, props
 
 # for use in the browser
 renderElement = (client, container) ->
   component = renderComponent client
-  React.renderComponent component, container
+  ReactDOM.render component, container
 
 # accepted anywhere html is sold
 renderString = (client) ->
   component = renderComponent client
-  React.renderComponentToString component
+  ReactDOMServer.renderToString component
 
 module.exports = {renderComponent, renderElement, renderString}
